@@ -517,7 +517,7 @@ if(login_check()){
                       <h6>Per <?php echo strftime("%A, %e %B %G"); ?></h6>
                     </center>
                       <br>
-                      <h5>Pengeluaran</h5>
+                      <h5>Penjualan</h5>
                       <div class="table-responsive">
                         <table class="table table-sm">
                           <thead>
@@ -589,7 +589,7 @@ if(login_check()){
                                 }
                                 elseif ($sum_tgl['tgl'] == $r_data['tgl']) {
                                   $sum_tgl['cpg'] += $r_data['jumlah'];
-                                  $sum_tgl['jen'] += $r_data['jenis'];
+                                  $sum_tgl['jen'] = $sum_tgl['jen'].", ".$r_data['jenis'];
                                 }
                                 else{
                                    $sum_array[] = $sum_tgl;
