@@ -1,6 +1,8 @@
 <?php
 		include "koneksi.php";
-		$query = "SELECT max(Id_pengeluaran) as maxKode FROM pengeluran";
+	if (isset($_POST['input'])) {
+	
+		$query = "SELECT max(Id_pengeluaran) as maxKode FROM pengeluaran";
 		$hasil = mysqli_query($conn,$query);
 		$data = mysqli_fetch_array($hasil);
 		$kodeBarang = $data['maxKode'];
@@ -12,7 +14,15 @@
         $jns = $_POST['jns_pengeluaran'];
         $cttn = $_POST['catatan'];
         $tgl = $_POST['tanggal'];
-        mysqli_query($conn, "INSERT INTO pengeluran VALUES('$kodeBarang','$tgl','$jml','$jns','$cttn')");
-        header("location:catat_pengeluaran.php");
-     
+        $query= mysqli_query($conn, "INSERT INTO pengeluaran VALUES('$kodeBarang','$tgl','$jml','$jns','$cttn')");
+        
+        if($query){
+        	echo "<script>alert('Input Data Berhasil')</script>";
+			echo "<script>location.href='index.php'</script>";
+		} 
+		else {
+			echo "<script>alert('Input Data Gagal')</script>";
+			echo "<script>location.href='catat_pengeluaran.php'</script>";
+		}
+    }
 ?>

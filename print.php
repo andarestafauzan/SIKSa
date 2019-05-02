@@ -1,3 +1,9 @@
+<?php 
+include('koneksi.php');
+include('proseslogin.php');
+
+if(login_check()){
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,195 +66,7 @@
       									<td>Rp. 100000</td>
       									<td>Rp. 20000</td>
       								</tr>
-                          			<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-      								<tr>
-      									<td colspan="4"></td>
-      								</tr>
-      								<tr>
-      									<th><center>Total</center></th>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
+                          			
       							</tbody>
       						</table>
       					</div>
@@ -340,3 +158,12 @@
 	</script>
 </body>
 </html>
+<?php }
+  else{
+          echo '<script type="text/javascript">
+                alert("Silahkan login terlebih dahulu.");
+                window.location.href="login.php";
+            </script>';
+        }
+
+ ?>

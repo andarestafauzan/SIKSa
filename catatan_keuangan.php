@@ -1,5 +1,7 @@
-<?php
-  include "koneksi.php";
+<?php 
+include('koneksi.php');
+include('proseslogin.php');
+if(login_check()){
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,7 +110,7 @@
                     ?>
                     <form action="" method="post">
                       <div class="form-group">
-                      <span style="border-radius: 3px; margin-bottom: 1px; width: 87%" class="input-group-addon">
+                      <span style="border-radius: 3px; margin-bottom: 1px; width: 146px" class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </span>
                       <div class="form-inline">
@@ -153,7 +155,12 @@
                           <?php
                             $thn = array();
                             while($u_thn = mysqli_fetch_array($penjualan)){
-                              $thn[] = date("Y", strtotime($u_thn['Tgl']));
+                              if (empty($thn)){
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
+                              elseif (!empty($thn) and end($thn) != date("Y", strtotime($u_thn['tgl']))) {
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
                             }
                             array_unique($thn);
                             rsort($thn);
@@ -169,7 +176,12 @@
                           <?php
                             $thn = array();
                             while($u_thn = mysqli_fetch_array($penjualan)){
-                              $thn[] = date("Y", strtotime($u_thn['Tgl']));
+                              if (empty($thn)){
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
+                              elseif (!empty($thn) and end($thn) != date("Y", strtotime($u_thn['tgl']))) {
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
                             }
                             array_unique($thn);
                             rsort($thn);
@@ -190,7 +202,7 @@
                     <div class="table-responsive">
                       <table class="table table-striped">
                         <?php
-                          $f_penjualan = mysqli_query($conn, "SELECT * FROM penjualan LEFT JOIN pembeli ON penjualan.id_pembeli = pembeli.id_pembeli WHERE MONTH(Tgl) = '".$cpj_b."' AND YEAR(Tgl) = '".$cpj_t."'");
+                          $f_penjualan = mysqli_query($conn, "SELECT * FROM penjualan WHERE MONTH(tgl) = '".$cpj_b."' AND YEAR(tgl) = '".$cpj_t."'");
                           $cek = mysqli_num_rows($f_penjualan);
                           if ($cek <= 0) {
                             echo "<h5 style='font-family: Montserrat-SemiBold'>Maaf... :(</h5>
@@ -215,12 +227,12 @@
                           while ($data = mysqli_fetch_array($f_penjualan)) {
                         ?>
                           <tr>
-                            <td><?php echo $data['Tgl']; ?></td>
-                            <td><?php echo $data['Tgl'] ?></td>
-                            <td><?php echo $data['bnyk_krupuk'] ?></td>
-                            <td><?php echo $data['jum_penjualan'] ?></td>
-                            <td><?php echo "(".$data['jenis'].") ".$data['nama'] ?></td>
-                            <td><?php echo "(".$data['tlp'].") ".$data['alamat'] ?></td>
+                            <td><?php echo $data['tgl']; ?></td>
+                            <td><?php echo $data['jns_kerupuk'] ?></td>
+                            <td><?php echo $data['jml_krupuk'] ?></td>
+                            <td><?php echo $data['jml_penjualan'] ?></td>
+                            <td><?php echo "(".$data['jns_pembeli'].") ".$data['nm_pembeli'] ?></td>
+                            <td><?php echo "(".$data['no_telp'].") ".$data['alamat'] ?></td>
                             <td><?php echo $data['catatan'] ?></td>
                           </tr>
                         <?php
@@ -238,7 +250,7 @@
     						<div class="row">
     							<div class="col-sm-2">
     								<?php
-                      $pengeluaran = mysqli_query($conn, "SELECT * FROM pengeluran");
+                      $pengeluaran = mysqli_query($conn, "SELECT * FROM pengeluaran");
                           if (isset($_POST['cpg_show'])) {
                             $cpg_b = $_POST['cpg_bln'];
                             $cpg_t = $_POST['cpg_thn'];
@@ -250,7 +262,7 @@
                     ?>
                     <form action="" method="post">
                       <div class="form-group">
-                      <span style="border-radius: 3px; margin-bottom: 1px; width: 87%" class="input-group-addon">
+                      <span style="border-radius: 3px; margin-bottom: 1px; width: 146px" class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </span>
                       <div class="form-inline">
@@ -295,7 +307,12 @@
                           <?php
                             $thn = array();
                             while($u_thn = mysqli_fetch_array($pengeluaran)){
-                              $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              if (empty($thn)){
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
+                              elseif (!empty($thn) and end($thn) != date("Y", strtotime($u_thn['tgl']))) {
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
                             }
                             array_unique($thn);
                             rsort($thn);
@@ -311,7 +328,12 @@
                           <?php
                             $thn = array();
                             while($u_thn = mysqli_fetch_array($pengeluaran)){
-                              $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              if (empty($thn)){
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
+                              elseif (!empty($thn) and end($thn) != date("Y", strtotime($u_thn['tgl']))) {
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
                             }
                             array_unique($thn);
                             rsort($thn);
@@ -332,7 +354,7 @@
                     <div class="table-responsive">
     								  <table class="table table-striped">
                       <?php
-                          $f_pengeluaran = mysqli_query($conn, "SELECT * FROM pengeluran WHERE MONTH(tgl) = '".date("m", mktime(0, 0, 0, $cpg_b, 10))."' AND YEAR(tgl) = '".date("Y", mktime(0, 0, $cpg_t, 0, 10))."'");
+                          $f_pengeluaran = mysqli_query($conn, "SELECT * FROM pengeluaran WHERE MONTH(tgl) = '".$cpg_b."' AND YEAR(tgl) = '".$cpg_t."'");
                           $cek = mysqli_num_rows($f_pengeluaran);
                           if ($cek <= 0) {
                             echo "<h5 style='font-family: Montserrat-SemiBold'>Maaf... :(</h5>
@@ -340,7 +362,6 @@
                                   <p style='font-family: Montserrat-Medium'>Data pengeluaran pada bulan ".$cpg_b.", tahun ".$cpg_t." tidak ditemukan.</p>";
                           }
                         else{
-                        ?>
                       ?>
       									<thead>
       										<tr>
@@ -374,260 +395,237 @@
       					<div class="container-fluid">
     						<div class="row">
     							<div class="col-sm-2">
+                  <?php
+                      $cetak = mysqli_query($conn, "SELECT * FROM penjualan JOIN pengeluaran ON penjualan.tgl = pengeluaran.tgl WHERE MONTH(penjualan.tgl) = MONTH(pengeluaran.tgl) OR YEAR(penjualan.tgl) = YEAR(pengeluaran.tgl)");
+                          if (isset($_POST['lck_show'])) {
+                            $lck_b = $_POST['lck_bln'];
+                            $lck_t = $_POST['lck_thn'];
+                          }
+                          else{
+                            $lck_b = date("m");
+                            $lck_t = date("Y");
+                          }
+                    ?>
     								<form action="" method="post">
                       <div class="form-group">
-                      <span style="border-radius: 3px; margin-bottom: 1px; width: 82%" class="input-group-addon">
+                      <span style="border-radius: 3px; margin-bottom: 1px; width: 146px" class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </span>
                       <div class="form-inline">
                         <div>
                           <label>Bulan</label>
-                          <select name="lck_bln" class="form-control" onchange="">
-                          <option>4</option>
-                          <option>3</option>
+                          <select name="lck_bln" class="form-control">
+                          <?php 
+                            if (!isset($_POST['lck_show'])){
+                          ?>
+                            <option value="<?php echo date('m', time()) ?>"><?php echo date('m', time()) ?></option>
+                            <option disabled value="">---</option>
+                          <?php
+                            for ($i=1; $i <= 12 ; $i++) { 
+                          ?>
+                              <option value="<?php echo date('m', mktime(0, 0, 0, $i, 10)) ?>"><?php echo date('m', mktime(0, 0, 0, $i, 10)) ?></option>
+                          <?php
+                            }
+                          ?>
+                          <?php
+                            }
+                            else{
+                          ?>
+                              <option value="<?php echo $lck_b ?>"><?php echo $lck_b ?></option>
+                              <option disabled value="">---</option>
+                          <?php
+                              for ($i=1; $i <= 12 ; $i++) { 
+                          ?>
+                              <option value="<?php echo date('m', mktime(0, 0, 0, $i, 10)) ?>"><?php echo date('m', mktime(0, 0, 0, $i, 10)) ?></option>
+                          <?php
+                            }}
+                          ?>
                         </select>
                         </div>
                         <div>
                           <label>Tahun</label>
                           <select name="lck_thn" class="form-control">
-                          <option>2019</option>
-                          <option>2019</option>
+                          <?php
+                            if (!isset($_POST['lck_show'])){
+                          ?>
+                          <option value="<?php echo date('Y', time()) ?>"><?php echo date('Y', time()) ?></option>
+                          <option disabled value="">-----</option>
+                          <?php
+                            $thn = array();
+                            while($u_thn = mysqli_fetch_array($cetak)){
+                              if (empty($thn)){
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
+                              elseif (!empty($thn) and end($thn) != date("Y", strtotime($u_thn['tgl']))) {
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
+                            }
+                            rsort($thn);
+                            foreach($thn as $thns){
+                          ?>
+                          <option value="<?php echo $thns ?>"><?php echo $thns ?></option>
+                          <?php
+                            }}
+                            else{
+                          ?>
+                          <option value="<?php echo $lck_t ?>"><?php echo $lck_t ?></option>
+                          <option disabled value="">-----</option>
+                          <?php
+                            $thn = array();
+                            while($u_thn = mysqli_fetch_array($pengeluaran)){
+                              if (empty($thn)){
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
+                              elseif (!empty($thn) and end($thn) != date("Y", strtotime($u_thn['tgl']))) {
+                                $thn[] = date("Y", strtotime($u_thn['tgl']));
+                              }
+                            }
+                            rsort($thn);
+                            foreach($thn as $thns){
+                          ?>
+                          <option value="<?php echo $thns ?>"><?php echo $thns ?></option>
+                          <?php
+                            }}
+                          ?>
                         </select>
                         </div>
                       </div>
-                      <input class="btn btn-primary" style="border-radius: 50px; margin-top: 5px; width: 113px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" type="submit" name="lck_show" value="Tampilkan">
+                      <input class="btn btn-primary" style="border-radius: 50px; margin: 5px 0px 0px 15px; width: 113px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" type="submit" name="lck_show" value="Tampilkan">
                   </div>
                     </form>
     							</div>
     							<div class="col-sm-8">
+                    </center>
+                    <?php
+                          $f_cetak = mysqli_query($conn, "SELECT * FROM pengeluaran WHERE MONTH(tgl) = '".$lck_b."' AND YEAR(tgl) = '".$lck_t."'");
+                          $f_cetak1 = mysqli_query($conn, "SELECT * FROM penjualan WHERE MONTH(tgl) = '".$lck_b."' AND YEAR(tgl) = '".$lck_t."'");
+                          $cek = mysqli_num_rows($f_cetak);
+                          $cek1 = mysqli_num_rows($f_cetak1);
+                          if ($cek <= 0 or $cek1 <= 0) {
+                            echo "<h5 style='font-family: Montserrat-SemiBold'>Maaf... :(</h5>
+                                  <br>
+                                  <p style='font-family: Montserrat-Medium'>Data keuangan pada bulan ".$lck_b.", tahun ".$lck_t." tidak ditemukan.</p>";
+                          }
+                        else{
+                      ?>
     								<center>
                       <h5>Kerupuk Sahabat</h5>
                       <br>
                       <h3>Laporan Catatan Keuangan</h3> 
                       <br>
-                      <h6>Per 23 April 2019</h6>
+                      <?php setlocale(LC_ALL, 'id_ID'); ?>
+                      <h6>Per <?php echo strftime("%A, %e %B %G"); ?></h6>
                     </center>
                       <br>
+                      <h5>Pengeluaran</h5>
                       <div class="table-responsive">
                         <table class="table table-sm">
                           <thead>
                             <tr>
                               <th>Tanggal</th>
+                              <th>Qty</th>
                               <th>Penjualan</th>
-                              <th>Pengeluaran</th>
-                              <th>Keuntungan</th>
                             </tr> 
                           </thead>
                           <tbody>
+                          <?php
+                            $sum_array = array();
+                            $sum_tgl = array();
+                            while($r_data = mysqli_fetch_array($f_cetak1)) {
+                              if($cek1 <= 1){
+                                $sum_tgl = array("tgl" => $r_data['tgl'], "qty" => $r_data['jml_krupuk'], "cpj" => $r_data['jml_penjualan']);
+                                $sum_array[] = $sum_tgl;
+                              }
+                              elseif ($cek1 > 1) {
+                                if (empty($sum_tgl)){
+                                  $sum_tgl = array("tgl" => $r_data['tgl'], "qty" => $r_data['jml_krupuk'], "cpj" => $r_data['jml_penjualan']);
+                                }
+                                elseif ($sum_tgl['tgl'] == $r_data['tgl']) {
+                                  $sum_tgl['cpj'] += $r_data['jml_penjualan'];
+                                  $sum_tgl['qty'] += $r_data['jml_krupuk'];
+                                }
+                                else{
+                                  $sum_array[] = $sum_tgl;
+                                  $sum_tgl = array("tgl" => $r_data['tgl'], "qty" => $r_data['jml_krupuk'], "cpj" => $r_data['jml_penjualan']);
+                                } 
+                              }
+                            }
+                            $sum_array[] = $sum_tgl;
+                            foreach ($sum_array as $ctk) {
+                          ?>
                             <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
+                              <td><?php echo $ctk['tgl'] ?></td>
+                              <td><?php echo $ctk['qty'] ?></td>
+                              <td><?php echo $ctk['cpj'] ?></td>
                             </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td>23/4/2019</td>
-                              <td>Rp. 120000</td>
-                              <td>Rp. 100000</td>
-                              <td>Rp. 20000</td>
-                            </tr>
-                            <tr>
-                              <td colspan="4"></td>
-                            </tr>
-                            <tr>
-                              <th><center>Total</center></th>
-                                <td>Rp. 120000</td>
-                                <td>Rp. 100000</td>
-                                <td>Rp. 20000</td>
-                            </tr>
+                        <?php
+                            }
+                          ?>
                           </tbody>
+                        </table>
+                        <br>
+                        <h5>Pengeluaran</h5>
+                      <div class="table-responsive">
+                        <table class="table table-sm">
+                          <thead>
+                            <tr>
+                              <th>Tanggal</th>
+                              <th>Pengeluaran</th>
+                              <th>Peruntukan</th>
+                            </tr> 
+                          </thead>
+                          <tbody>
+                          <?php
+                            $sum_array = array();
+                            $sum_tgl = array();
+                            while($r_data = mysqli_fetch_array($f_cetak)) {
+                              if($cek <= 1){
+                                $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => $r_data['jenis']);
+                                $sum_array[] = $sum_tgl;
+                              }
+                              elseif ($cek > 1) {
+                                if (empty($sum_tgl)){
+                                  $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => $r_data['jenis']);
+                                }
+                                elseif ($sum_tgl['tgl'] == $r_data['tgl']) {
+                                  $sum_tgl['cpg'] += $r_data['jumlah'];
+                                  $sum_tgl['jen'] += $r_data['jenis'];
+                                }
+                                else{
+                                   $sum_array[] = $sum_tgl;
+                                  $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => $r_data['jenis']);
+                                } 
+                              }
+                            }
+                             $sum_array[] = $sum_tgl;
+                            foreach ($sum_array as $ctk) {
+                          ?>
+                            <tr>
+                              <td><?php echo $ctk['tgl'] ?></td>
+                              <td><?php echo $ctk['cpg'] ?></td>
+                              <td><?php echo $ctk['jen'] ?></td>
+                            </tr>
+                        <?php
+                          }}
+                        ?>
+                        </tbody>
                         </table>
                       </div>
                   </div>
-    							<div class="col-sm-2">
-                    <br>
-                    <center>
-                      <button style="border-radius: 50px; width: 120px; font-family: Montserrat-Medium; font-size: 10pt" class="btn btn-info" onclick="window.open('print.php');">
-                      <i class="fa fa-print"></i> Cetak
-                      </button>  
-                    </center>
-                    <br>
-    							</div>
     						</div>
+                <div class="col-sm-2">
+                    <center>
+                      <?php if($cek >= 1 or $cek1 >= 1) {?>
+                    <form action="print.php" method="post">
+                        <input type="hidden" name="p_bln" value="<?php $lck_b ?>">
+                        <input type="hidden" name="p_thn" value="<?php $lck_t ?>">
+                        <button style="border-radius: 50px; width: 120px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" class="btn btn-info" type="submit" name="p_ctk" value="Cetak">
+                        <i class="fa fa-print"></i> Cetak
+                      </button>
+                      </form>
+                    <?php } ?>  
+                    </center>
+                  </div>
     					</div>
     				</div>
   				</div>
@@ -725,3 +723,12 @@
 	</script>
 </body>
 </html>
+<?php }
+  else{
+          echo '<script type="text/javascript">
+                alert("Silahkan login terlebih dahulu.");
+                window.location.href="login.php";
+            </script>';
+        }
+
+ ?>
