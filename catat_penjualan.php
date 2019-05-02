@@ -59,25 +59,33 @@ if(login_check()){
 				</div>
 				
 
-				<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<span class="label-input100">BANYAK KERUPUK</span>
+				<div class="wrap-input100 rs1-wrap-input100 validate-input bg1 " data-validate = "Banyak kerupuk kosong">
+					<span class="label-input100">BANYAK KERUPUK *</span>
 					<input class="input100" type="text" name="jml_kerupuk" placeholder="Masukkan banyaknya kerupuk">
 				</div>
 
 
-				<div class="wrap-input100 bg1">
-					<span class="label-input100">JUMLAH PENJUALAN</span>
+				<div class="wrap-input100 validate-input bg1 " data-validate = "Jumlah penjualan kosong">
+					<span class="label-input100">JUMLAH PENJUALAN *</span>
 					<input class="input100" type="text" name="jml_penjualan" placeholder="Masukkan jumlah penjualan (RP)">
 				</div>
 
-				<div class="wrap-input100 validate-input bg1 " data-validate = "Jenis penjualan kosong" >
+				<div class="wrap-input100 validate-input bg1"	 >
 					<span class="label-input100">JENIS KERUPUK *</span>
-					<input class="input100" type="text" name="jns_kerupuk" placeholder="Masukkan jenis penjualan ">
+					<div>
+						<select class="js-select2" name="jns_kerupuk">
+							<option>Silahkan pilih</option>
+							<option value="biasa">Biasa</option>
+							<option value="bantet">Bantet</option>
+							<option value="gosong">Gosong</option>
+						</select>
+						<div class="dropDownSelect2"></div>
+					</div>
 				</div>
 
 				
 				<div class="wrap-input100 input100-select bg1">
-					<span class="label-input100">PEMBELI</span>
+					<span class="label-input100">PEMBELI *</span>
 					<div>
 						<select class="js-select2" name="jns_pembeli">
 							<option>Silahkan pilih</option>
@@ -88,8 +96,8 @@ if(login_check()){
 					</div>
 				</div> 
 
-				<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<span class="label-input100">NAMA PEMBELI</span>
+				<div class="wrap-input100 rs1-wrap-input100 validate-input bg1"  data-validate = "Nama pembeli kosong">
+					<span class="label-input100">NAMA PEMBELI *</span>
 					<input class="input100" type="text" name="nm_pembeli" placeholder="Masukkan nama pembeli">
 				</div>
 
@@ -108,7 +116,7 @@ if(login_check()){
 					<textarea class="input100" name="catatan" placeholder="Catatan Tambahan"></textarea>
 				</div>
 
-				<div class="container-contact100-form-btn">
+				<div class="container-contact100-form-btn rs1-wrap-input100">
 					<button class="contact100-form-btn" name="jual">
 						<span>
 							Submit
@@ -116,6 +124,7 @@ if(login_check()){
 						</span>
 					</button>
 				</div>
+
 			</form>
 		</div>
 	</div>

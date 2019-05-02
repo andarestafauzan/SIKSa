@@ -45,7 +45,7 @@
 					<span class="label-input100">TANGGAL *</span>
 					  <div class="date-picker">
 					  	<div class="input">
-					  		<div id="tanggal" class="result">Select Date: <span></span></div>
+					  		<div id="tanggal_label" class="result">Select Date: <span></span></div>
 					  		<button><i class="fa fa-calendar"></i></button>
 					  	</div>
 					  	<div class="calendar"></div>
@@ -85,7 +85,7 @@
 				</div>
 
 				<div class="container-contact100-form-btn">
-					<button class="contact100-form-btn" type="submit" name="Submit">
+					<button class="contact100-form-btn" type="submit" name="input">
 						<span>
 							Submit
 							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
