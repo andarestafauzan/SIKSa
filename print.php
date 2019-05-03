@@ -3,11 +3,15 @@ include('koneksi.php');
 include('proseslogin.php');
 
 if(login_check()){
+      if (isset($_POST['lck_show'])) {
+            $lck_b = $_POST['lck_bln'];
+            $lck_t = $_POST['lck_thn'];
+      }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Laporan Catatan Keuangan Bulan <?php echo strftime("%B %G", mktime(0, $lck_t, 0, $lck_b, 10))."_".date("d-m-Y", time()) ?></title>
 </head>
 <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,39 +44,185 @@ if(login_check()){
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-2"></div>
+                  <?php
+                        
+                        $f_cetak = mysqli_query($conn, "SELECT * FROM pengeluaran WHERE MONTH(tgl) = '".$lck_b."' AND YEAR(tgl) = '".$lck_t."'");
+                        $f_cetak1 = mysqli_query($conn, "SELECT * FROM penjualan WHERE MONTH(tgl) = '".$lck_b."' AND YEAR(tgl) = '".$lck_t."'");
+                        $cek = mysqli_num_rows($f_cetak);
+                        $cek1 = mysqli_num_rows($f_cetak1);
+                  ?>
 			<div class="col-sm-8">
-				<center>
-                    <h5>Kerupuk Sahabat</h5>
+			<center>
+                      <h5>Kerupuk Sahabat</h5>
+                      <br>
+                      <h3>Laporan Catatan Keuangan</h3> 
+                      <br>
+                      <?php setlocale(LC_ALL, 'id_ID'); ?>
+                      <h6>Per <?php echo strftime("%A, %e %B %G"); ?></h6>
+                    </center>
+                      <br>
+                      <h5>Penjualan</h5>
+                      <div class="table">
+                        <table class="table table-sm">
+                          <thead>
+                            <tr>
+                              <th>Tanggal</th>
+                              <th>Kerupuk Terjual</th>
+                              <th>Pendapatan</th>
+                            </tr> 
+                          </thead>
+                          <tbody>
+                          <?php
+                            $sum_array = array();
+                            $sum_tgl = array();
+                            $sum_qty = $sum_cpj = 0;
+                            while($r_data = mysqli_fetch_array($f_cetak1)) {
+                              if($cek1 <= 1){
+                                $sum_tgl = array("tgl" => $r_data['tgl'], "qty" => $r_data['jml_krupuk'], "cpj" => $r_data['jml_penjualan']);
+                                $sum_array[] = $sum_tgl;
+                                $sum_qty = $r_data['jml_krupuk'];
+                                $sum_cpj = $r_data['jml_penjualan'];
+                              }
+                              elseif ($cek1 > 1) {
+                                if (empty($sum_tgl)){
+                                  $sum_tgl = array("tgl" => $r_data['tgl'], "qty" => $r_data['jml_krupuk'], "cpj" => $r_data['jml_penjualan']);
+                                }
+                                elseif ($sum_tgl['tgl'] == $r_data['tgl']) {
+                                  $sum_tgl['cpj'] += $r_data['jml_penjualan'];
+                                  $sum_tgl['qty'] += $r_data['jml_krupuk'];
+                                }
+                                else{
+                                  $sum_array[] = $sum_tgl;
+                                  $sum_tgl = array("tgl" => $r_data['tgl'], "qty" => $r_data['jml_krupuk'], "cpj" => $r_data['jml_penjualan']);
+                                }
+                                $sum_qty += $r_data['jml_krupuk'];
+                                $sum_cpj += $r_data['jml_penjualan']; 
+                              }
+                            }
+                            $sum_qty += $r_data['jml_krupuk'];
+                            $sum_cpj += $r_data['jml_penjualan']; 
+                            $sum_array[] = $sum_tgl;
+                            foreach ($sum_array as $ctk) {
+                          ?>
+                            <tr>
+                              <td><?php echo $ctk['tgl'] ?></td>
+                              <td><?php echo $ctk['qty'] ?></td>
+                              <td>Rp. <?php echo $ctk['cpj'] ?></td>
+                            </tr>
+                        <?php
+                            }
+                          ?>
+                          <tr>
+                            <td colspan="3"></td>
+                          </tr>
+                          <tr>
+                            <th>
+                              <center>
+                              Total
+                            </center>
+                            </th>
+                            <td>
+                              <?php echo $sum_qty ?>
+                            </td>
+                            <td>
+                              Rp. <?php echo $sum_cpj ?>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                        <br>
+                        <h5>Pengeluaran</h5>
+                      <div class="table-responsive">
+                        <table class="table table-sm">
+                          <thead>
+                            <tr>
+                              <th>Tanggal</th>
+                              <th>Peruntukan Pengeluaran</th>
+                              <th>Pengeluaran</th>
+                            </tr> 
+                          </thead>
+                          <tbody>
+                          <?php
+                            $sum_array = array();
+                            $sum_tgl = array();
+                            $sum_str = array();
+                            $sum_cpg = 0;
+                            while($r_data = mysqli_fetch_array($f_cetak)) {
+                              if($cek <= 1){
+                                $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => $r_data['jenis']);
+                                $sum_array[] = $sum_tgl;
+                                $sum_cpg = $r_data['jumlah'];
+                              }
+                              elseif ($cek > 1) {
+                                if (empty($sum_tgl)){
+                                  $sum_str[] = $r_data['jenis'];
+                                  $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => end($sum_str));
+                                }
+                                elseif ($sum_tgl['tgl'] == $r_data['tgl']) {
+                                  $sum_tgl['cpg'] += $r_data['jumlah'];
+                                  for ($i=0; $i < sizeof($sum_str) ; $i++) { 
+                                    if ($sum_str[$i] != $r_data['jenis']){
+                                      $sum_tgl['jen'] = $sum_tgl['jen'].", ".$r_data['jenis'];
+                                    }
+                                  }
+                                }
+                                else{
+                                  $sum_array[] = $sum_tgl;
+                                  unset($sum_str);
+                                  $sum_str[] = $r_data['jenis'];
+                                  $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => end($sum_str));
+                                }
+                                $sum_cpg += $r_data['jumlah']; 
+                              }
+                            }
+                             $sum_array[] = $sum_tgl;
+                            foreach ($sum_array as $ctk) {
+                          ?>
+                            <tr>
+                              <td><?php echo $ctk['tgl'] ?></td>
+                              <td><?php echo $ctk['jen'] ?></td>
+                              <td>Rp. <?php echo $ctk['cpg'] ?></td>
+                            </tr>
+                        <?php
+                          }
+                        ?>
+                        <tr>
+                            <td colspan="3"></td>
+                          </tr>
+                          <tr>
+                            <th colspan="2">
+                            <center>
+                              Total
+                            </center>
+                          </th>
+                          <td>
+                            Rp. <?php echo $sum_cpg ?>
+                          </td>
+                          </tr>
+                        </tbody>
+                        </table>
+                      </div>
+                  </div>
+                  <h5>
+                    Keuntungan
+                  </h5>
+                  <h6>
+                    <p style="font-family: arial; font-size: 12pt; font-style: normal; color: black">
+                    Total keuntungan pada bulan <b><?php echo strftime("%B %G", mktime(0, (int)$lck_t, 0, (int)$lck_b, 10)); ?></b> adalah sebesar : <b>Rp. <?php echo $sum_cpj - $sum_cpg ?></b>
+                    </p>
+                  </h6>
+                  <br>
+                  <div style="position: absolute; right: 0%; width: 200px">
+                    <h6 style="position: absolute; right: 45%;">Admin</h6>
                     <br>
-    				<h3>Laporan Catatan Keuangan</h3>	
                     <br>
-                    <h6>Per 23 April 2019</h6>
-    				</center>
-                    	<br>
-                    	<div class="table-responsive">
-    						<table class="table table-sm">
-      							<thead>
-      								<tr>
-      									<th>Tanggal</th>
-      									<th>Penjualan</th>
-      									<th>Pengeluaran</th>
-      									<th>Keuntungan</th>
-      								</tr>	
-      							</thead>
-      							<tbody>
-      								<tr>
-      									<td>23/4/2019</td>
-      									<td>Rp. 120000</td>
-      									<td>Rp. 100000</td>
-      									<td>Rp. 20000</td>
-      								</tr>
-                          			
-      							</tbody>
-      						</table>
-      					</div>
-      				</div>
-      			</div>
-			</div>
+                    <br>
+                    <br>
+                    <br>
+                    <h6 style="position: absolute; right: 100%">(</h6>
+                    <h6 style="position: absolute; right: 0%">)</h6>
+                    </div>
+                                    </div>
 			<div class="col-sm-2"></div>
 		</div>
 	</div>
@@ -109,7 +259,6 @@ if(login_check()){
 	</script>
 	<script>
 		$(document).ready(function(){
-			document.title="Laporan Catatan Keuangan 23-Apr-2019";
 			window.print();
 			window.close();
 		})

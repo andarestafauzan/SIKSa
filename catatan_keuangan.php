@@ -230,7 +230,7 @@ if(login_check()){
                             <td><?php echo $data['tgl']; ?></td>
                             <td><?php echo $data['jns_kerupuk'] ?></td>
                             <td><?php echo $data['jml_krupuk'] ?></td>
-                            <td><?php echo $data['jml_penjualan'] ?></td>
+                            <td>Rp. <?php echo $data['jml_penjualan'] ?></td>
                             <td><?php echo "(".$data['jns_pembeli'].") ".$data['nm_pembeli'] ?></td>
                             <td><?php echo "(".$data['no_telp'].") ".$data['alamat'] ?></td>
                             <td><?php echo $data['catatan'] ?></td>
@@ -377,7 +377,7 @@ if(login_check()){
                         ?>
       										<tr>
       											<td><?php echo $data['tgl']; ?></td>
-      											<td><?php echo $data['jumlah']; ?></td>
+      											<td>Rp. <?php echo $data['jumlah']; ?></td>
       											<td><?php echo $data['jenis']; ?></td>
                             <td><?php echo $data['catatan']; ?></td>
       										</tr>
@@ -523,18 +523,21 @@ if(login_check()){
                           <thead>
                             <tr>
                               <th>Tanggal</th>
-                              <th>Qty</th>
-                              <th>Penjualan</th>
+                              <th>Kerupuk Terjual</th>
+                              <th>Pendapatan</th>
                             </tr> 
                           </thead>
                           <tbody>
                           <?php
                             $sum_array = array();
                             $sum_tgl = array();
+                            $sum_qty = $sum_cpj = 0;
                             while($r_data = mysqli_fetch_array($f_cetak1)) {
                               if($cek1 <= 1){
                                 $sum_tgl = array("tgl" => $r_data['tgl'], "qty" => $r_data['jml_krupuk'], "cpj" => $r_data['jml_penjualan']);
                                 $sum_array[] = $sum_tgl;
+                                $sum_qty = $r_data['jml_krupuk'];
+                                $sum_cpj = $r_data['jml_penjualan'];
                               }
                               elseif ($cek1 > 1) {
                                 if (empty($sum_tgl)){
@@ -547,20 +550,40 @@ if(login_check()){
                                 else{
                                   $sum_array[] = $sum_tgl;
                                   $sum_tgl = array("tgl" => $r_data['tgl'], "qty" => $r_data['jml_krupuk'], "cpj" => $r_data['jml_penjualan']);
-                                } 
+                                }
+                                $sum_qty += $r_data['jml_krupuk'];
+                                $sum_cpj += $r_data['jml_penjualan']; 
                               }
                             }
+                            $sum_qty += $r_data['jml_krupuk'];
+                            $sum_cpj += $r_data['jml_penjualan']; 
                             $sum_array[] = $sum_tgl;
                             foreach ($sum_array as $ctk) {
                           ?>
                             <tr>
                               <td><?php echo $ctk['tgl'] ?></td>
                               <td><?php echo $ctk['qty'] ?></td>
-                              <td><?php echo $ctk['cpj'] ?></td>
+                              <td>Rp. <?php echo $ctk['cpj'] ?></td>
                             </tr>
                         <?php
                             }
                           ?>
+                          <tr>
+                            <td colspan="3"></td>
+                          </tr>
+                          <tr>
+                            <th>
+                              <center>
+                              Total
+                            </center>
+                            </th>
+                            <td>
+                              <?php echo $sum_qty ?>
+                            </td>
+                            <td>
+                              Rp. <?php echo $sum_cpj ?>
+                            </td>
+                          </tr>
                           </tbody>
                         </table>
                         <br>
@@ -570,31 +593,42 @@ if(login_check()){
                           <thead>
                             <tr>
                               <th>Tanggal</th>
+                              <th>Peruntukan Pengeluaran</th>
                               <th>Pengeluaran</th>
-                              <th>Peruntukan</th>
                             </tr> 
                           </thead>
                           <tbody>
                           <?php
                             $sum_array = array();
                             $sum_tgl = array();
+                            $sum_str = array();
+                            $sum_cpg = 0;
                             while($r_data = mysqli_fetch_array($f_cetak)) {
                               if($cek <= 1){
                                 $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => $r_data['jenis']);
                                 $sum_array[] = $sum_tgl;
+                                $sum_cpg = $r_data['jumlah'];
                               }
                               elseif ($cek > 1) {
                                 if (empty($sum_tgl)){
-                                  $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => $r_data['jenis']);
+                                  $sum_str[] = $r_data['jenis'];
+                                  $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => end($sum_str));
                                 }
                                 elseif ($sum_tgl['tgl'] == $r_data['tgl']) {
                                   $sum_tgl['cpg'] += $r_data['jumlah'];
-                                  $sum_tgl['jen'] = $sum_tgl['jen'].", ".$r_data['jenis'];
+                                  for ($i=0; $i < sizeof($sum_str) ; $i++) { 
+                                    if ($sum_str[$i] != $r_data['jenis']){
+                                      $sum_tgl['jen'] = $sum_tgl['jen'].", ".$r_data['jenis'];
+                                    }
+                                  }
                                 }
                                 else{
-                                   $sum_array[] = $sum_tgl;
-                                  $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => $r_data['jenis']);
-                                } 
+                                  $sum_array[] = $sum_tgl;
+                                  unset($sum_str);
+                                  $sum_str[] = $r_data['jenis'];
+                                  $sum_tgl = array("tgl" => $r_data['tgl'], "cpg" => $r_data['jumlah'], "jen" => end($sum_str));
+                                }
+                                $sum_cpg += $r_data['jumlah']; 
                               }
                             }
                              $sum_array[] = $sum_tgl;
@@ -602,24 +636,56 @@ if(login_check()){
                           ?>
                             <tr>
                               <td><?php echo $ctk['tgl'] ?></td>
-                              <td><?php echo $ctk['cpg'] ?></td>
                               <td><?php echo $ctk['jen'] ?></td>
+                              <td>Rp. <?php echo $ctk['cpg'] ?></td>
                             </tr>
                         <?php
                           }}
                         ?>
+                        <tr>
+                            <td colspan="3"></td>
+                          </tr>
+                          <tr>
+                            <th colspan="2">
+                            <center>
+                              Total
+                            </center>
+                          </th>
+                          <td>
+                            Rp. <?php echo $sum_cpg ?>
+                          </td>
+                          </tr>
                         </tbody>
                         </table>
                       </div>
                   </div>
+                  <h5>
+                    Keuntungan
+                  </h5>
+                  <h6>
+                    <p style="font-family: arial; font-size: 12pt; font-style: normal; color: black">
+                    Total keuntungan pada bulan <b><?php echo strftime("%B %G", mktime(0, $lck_t, 0, $lck_b, 10)); ?></b> adalah sebesar : <b>Rp. <?php echo $sum_cpj - $sum_cpg ?></b>
+                    </p>
+                  </h6>
+                  <br>
+                  <div style="position: absolute; right: 0%; width: 200px">
+                    <h6 style="position: absolute; right: 45%;">Admin</h6>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <h6 style="position: absolute; right: 100%">(</h6>
+                    <h6 style="position: absolute; right: 0%">)</h6>
+                    </div>
     						</div>
                 <div class="col-sm-2">
                     <center>
                       <?php if($cek >= 1 or $cek1 >= 1) {?>
                     <form action="print.php" method="post">
-                        <input type="hidden" name="p_bln" value="<?php $lck_b ?>">
-                        <input type="hidden" name="p_thn" value="<?php $lck_t ?>">
-                        <button style="border-radius: 50px; width: 120px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" class="btn btn-info" type="submit" name="p_ctk" value="Cetak">
+                        <input type="hidden" name="lck_bln" value="<?php echo $lck_b ?>">
+                        <input type="hidden" name="lck_thn" value="<?php echo $lck_t ?>">
+                        <button style="border-radius: 50px; width: 120px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" class="btn btn-info" type="submit" name="lck_show" value="Cetak">
                         <i class="fa fa-print"></i> Cetak
                       </button>
                       </form>
