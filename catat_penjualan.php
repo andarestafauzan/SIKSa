@@ -98,8 +98,8 @@ if(login_check()){
 				</div> 
 
 				<div class ="wrap-input100" id="sembunyi" style="display: none;"> 
-					<div class="wrap-input100 validate-input bg1 "  data-validate = "Nama pembeli kosong">
-						<span class="label-input100">NAMA PEMBELI *</span>
+					<div class="wrap-input100 bg1 " >
+						<span class="label-input100">NAMA PEMBELI </span>
 						<input class="input100" type="text" name="nm_pembeli" placeholder="Masukkan nama pembeli">
 					</div>				
 

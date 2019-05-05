@@ -22,7 +22,13 @@ if (isset($_POST['jual'])) {
 	$almt_pembeli = $_POST['almt_pembeli'];
 	$catatan = $_POST['catatan'];
 
-	$insert = mysqli_query($conn,"INSERT INTO penjualan(id_penjualan,tgl,jml_krupuk,jml_penjualan,jns_kerupuk,jns_pembeli,nm_pembeli,no_telp,alamat,catatan) VALUES('$idPenjualan','$tgl','$jml_kerupuk','$jml_penjualan','$jns_kerupuk','$jns_pembeli','$nm_pembeli','$no_telp_pembeli','$almt_pembeli','$catatan')");
+
+	if (empty($nm_pembeli) && empty($no_telp_pembeli) && empty($almt_pembeli)) {
+		$insert = mysqli_query($conn,"INSERT INTO penjualan(id_penjualan,tgl,jml_krupuk,jml_penjualan,jns_kerupuk,jns_pembeli,nm_pembeli,no_telp,alamat,catatan) VALUES('$idPenjualan','$tgl','$jml_kerupuk','$jml_penjualan','$jns_kerupuk','$jns_pembeli','-','000','-','$catatan')");
+
+	} else {
+		$insert = mysqli_query($conn,"INSERT INTO penjualan(id_penjualan,tgl,jml_krupuk,jml_penjualan,jns_kerupuk,jns_pembeli,nm_pembeli,no_telp,alamat,catatan) VALUES('$idPenjualan','$tgl','$jml_kerupuk','$jml_penjualan','$jns_kerupuk','$jns_pembeli','$nm_pembeli','$no_telp_pembeli','$almt_pembeli','$catatan')");
+	}
 
 	if ($insert) {
 		echo "<script>alert('Input Data Berhasil')</script>";
