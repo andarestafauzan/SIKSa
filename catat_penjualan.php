@@ -21,7 +21,7 @@ if(login_check()){
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">-->
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
 <!--===============================================================================================-->
@@ -34,6 +34,7 @@ if(login_check()){
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" href="css/date_style.css">
+
 <!--===============================================================================================-->
 </head>
 <body>
@@ -59,21 +60,16 @@ if(login_check()){
 				</div>
 				
 
-				<div class="wrap-input100 rs1-wrap-input100 validate-input bg1 " data-validate = "Banyak kerupuk kosong">
-					<span class="label-input100">BANYAK KERUPUK *</span>
-					<input class="input100" type="text" name="jml_kerupuk" placeholder="Masukkan banyaknya kerupuk">
-				</div>
-
-
-				<div class="wrap-input100 validate-input bg1 " data-validate = "Jumlah penjualan kosong">
-					<span class="label-input100">JUMLAH PENJUALAN *</span>
-					<input class="input100" type="text" name="jml_penjualan" placeholder="Masukkan jumlah penjualan (RP)">
+				<div class="wrap-input100 rs1-wrap-input100 validate-input bg1 " data-validate = "Jumlah
+				 kerupuk kosong">
+					<span class="label-input100">JUMLAH KERUPUK *</span>
+					<input class="input100" type="text" name="jml_kerupuk" id="jml_kerupuk" placeholder="Masukkan jumlah kerupuk">
 				</div>
 
 				<div class="wrap-input100 validate-input bg1"	 >
 					<span class="label-input100">JENIS KERUPUK *</span>
 					<div>
-						<select class="js-select2" name="jns_kerupuk">
+						<select class="js-select2" name="jns_kerupuk" id="jns_kerupuk">
 							<option>Silahkan pilih</option>
 							<option value="biasa">Biasa</option>
 							<option value="bantet">Bantet</option>
@@ -83,11 +79,16 @@ if(login_check()){
 					</div>
 				</div>
 
+				<div class="wrap-input100 bg1">
+					<span class="label-input100">TOTAL PENJUALAN *</span>
+					<button type="button" onclick="totalCalcu()" class="kalku">Klik Untuk Kalkulasi Total</button>
+					<input class="input100" type="text" name="jml_penjualan" id="jml_penjualan" placeholder="Total penjualan" readonly><span>Rupiah</span>
+				</div>
 				
 				<div class="wrap-input100 input100-select bg1">
 					<span class="label-input100">PEMBELI *</span>
 					<div>
-						<select class="js-select2" name="jns_pembeli">
+						<select class="js-select2" name="jns_pembeli" id="jns_pembeli">
 							<option>Silahkan pilih</option>
 							<option value="p_kerupuk">Penjual Kerupuk</option>
 							<option value="p_orang">Pembeli Perorangan</option>
@@ -96,19 +97,21 @@ if(login_check()){
 					</div>
 				</div> 
 
-				<div class="wrap-input100 rs1-wrap-input100 validate-input bg1"  data-validate = "Nama pembeli kosong">
-					<span class="label-input100">NAMA PEMBELI *</span>
-					<input class="input100" type="text" name="nm_pembeli" placeholder="Masukkan nama pembeli">
-				</div>
+				<div class ="wrap-input100" id="sembunyi" style="display: none;"> 
+					<div class="wrap-input100 validate-input bg1 "  data-validate = "Nama pembeli kosong">
+						<span class="label-input100">NAMA PEMBELI *</span>
+						<input class="input100" type="text" name="nm_pembeli" placeholder="Masukkan nama pembeli">
+					</div>				
 
-				<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<span class="label-input100">NO. TELP PEMBELI</span>
-					<input class="input100" type="text" name="no_telp_pembeli" placeholder="Masukkan no. telepon">
-				</div>
+					<div class="wrap-input100 bg1">
+						<span class="label-input100">NO. TELP PEMBELI</span>
+						<input class="input100" type="text" name="no_telp_pembeli" placeholder="Masukkan no. telepon">
+					</div>
 
-				<div class="wrap-input100 bg1">
-					<span class="label-input100">ALAMAT PEMBELI</span>
-					<input class="input100" type="text" name="almt_pembeli" placeholder="Masukkan alamat pembeli">
+					<div class="wrap-input100 bg1">
+						<span class="label-input100">ALAMAT PEMBELI</span>
+						<input class="input100" type="text" name="almt_pembeli" placeholder="Masukkan alamat pembeli">
+					</div>
 				</div>
 
 				<div class="wrap-input100 bg0" >
@@ -130,10 +133,35 @@ if(login_check()){
 	</div>
 
 
+<!--Addition=======================================================================================-->
 
+	<script type="text/javascript">
+		function totalCalcu(){
+			 var elt = document.getElementById("jml_kerupuk");
+      		 var jml = elt.value;
+
+      		 elt = document.getElementById("jns_kerupuk");
+      		 var jns = elt.options[elt.selectedIndex].value;
+
+      		 var total
+      		 if (jns == "biasa") {
+      		 	total = jml*550;
+      		 } else if (jns == "bantet") {
+      		 	total = jml*650;
+      		 } else if (jns == "gosong") {
+      		 	total = jml*450;
+      		 } 
+
+      		 jml = parseInt(jml);
+      		 jns = parseInt(jns);
+
+     		 
+      		 document.getElementById("jml_penjualan").value=total;
+		}
+	</script>
 <!--===============================================================================================-->
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-	<script src="js//jquery-ui.min.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
@@ -146,6 +174,7 @@ if(login_check()){
 			$(this).select2({
 				minimumResultsForSearch: 20,
 				dropdownParent: $(this).next('.dropDownSelect2')
+
 			});
 
 
@@ -160,6 +189,15 @@ if(login_check()){
 					}
 				});
 			});
+
+		$('#jns_pembeli').on('select2:select',function(e){
+			
+			if (this.value == 'p_kerupuk') {
+				$('#sembunyi').show();
+			} else {
+				$('#sembunyi').hide();
+			}
+		});
 		})
 	</script>
 <!--===============================================================================================-->
@@ -168,31 +206,6 @@ if(login_check()){
 	<script src="js/date_index.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/noui/nouislider.min.js"></script>
-	<script>
-	    var filterBar = document.getElementById('filter-bar');
-
-	    noUiSlider.create(filterBar, {
-	        start: [ 1500, 3900 ],
-	        connect: true,
-	        range: {
-	            'min': 1500,
-	            'max': 7500
-	        }
-	    });
-
-	    var skipValues = [
-	    document.getElementById('value-lower'),
-	    document.getElementById('value-upper')
-	    ];
-
-	    filterBar.noUiSlider.on('update', function( values, handle ) {
-	        skipValues[handle].innerHTML = Math.round(values[handle]);
-	        $('.contact100-form-range-value input[name="from-value"]').val($('#value-lower').html());
-	        $('.contact100-form-range-value input[name="to-value"]').val($('#value-upper').html());
-	    });
-	</script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
 	<script>

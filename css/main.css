@@ -728,3 +728,11 @@ textarea.input100 {
   }
 }
 
+.kalku {
+  float: right; color: white; font-weight: bold; background-color: grey; padding: 5px; border-radius: 5px;
+}
+
+.kalku:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
