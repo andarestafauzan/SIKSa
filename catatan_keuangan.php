@@ -194,7 +194,7 @@ if(login_check()){
                         </select>
                         </div>
                       </div>
-                      <input class="btn btn-primary" style="border-radius: 50px; margin: 5px 0px 0px 15px; width: 113px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" type="submit" name="cpj_show" value="Tampilkan">
+                      <input class="btn btn-success" style="border-radius: 50px; margin: 5px 0px 0px 15px; width: 113px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" type="submit" name="cpj_show" value="Tampilkan">
                   </div>
                     </form>
     							</div>
@@ -346,7 +346,7 @@ if(login_check()){
                         </select>
                         </div>
                       </div>
-                      <input class="btn btn-primary" style="border-radius: 50px; margin: 5px 0px 0px 15px; width: 113px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" type="submit" name="cpg_show" value="Tampilkan">
+                      <input class="btn btn-success" style="border-radius: 50px; margin: 5px 0px 0px 15px; width: 113px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" type="submit" name="cpg_show" value="Tampilkan">
                   </div>
                     </form>
     							</div>
@@ -486,22 +486,31 @@ if(login_check()){
                           <option value="<?php echo $thns ?>"><?php echo $thns ?></option>
                           <?php
                             }}
+                            $f_cetak = mysqli_query($conn, "SELECT * FROM pengeluaran WHERE MONTH(tgl) = '".$lck_b."' AND YEAR(tgl) = '".$lck_t."'");
+                          $f_cetak1 = mysqli_query($conn, "SELECT * FROM penjualan WHERE MONTH(tgl) = '".$lck_b."' AND YEAR(tgl) = '".$lck_t."'");
+                          $cek = mysqli_num_rows($f_cetak);
+                          $cek1 = mysqli_num_rows($f_cetak1);
                           ?>
                         </select>
                         </div>
                       </div>
-                      <input class="btn btn-primary" style="border-radius: 50px; margin: 5px 0px 0px 15px; width: 113px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" type="submit" name="lck_show" value="Tampilkan">
+                      <input class="btn btn-success" style="border-radius: 50px; margin: 5px 0px 0px 15px; width: 113px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" type="submit" name="lck_show" value="Tampilkan">
                   </div>
                     </form>
+                      <?php if($cek >= 1 or $cek1 >= 1) {?>
+                    <form action="print.php" method="post">
+                        <input type="hidden" name="lck_bln" value="<?php echo $lck_b ?>">
+                        <input type="hidden" name="lck_thn" value="<?php echo $lck_t ?>">
+                        <button style="border-radius: 50px; width: 120px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer; margin: 50px 0px 0px 12px;" class="btn btn-info" type="submit" name="lck_show" value="Cetak">
+                        <i class="fa fa-print"></i> Cetak
+                      </button>
+                    <?php } ?>  
+                    </center>
     							</div>
     							<div class="col-sm-8">
                     </center>
                     <?php
-                          $f_cetak = mysqli_query($conn, "SELECT * FROM pengeluaran WHERE MONTH(tgl) = '".$lck_b."' AND YEAR(tgl) = '".$lck_t."'");
-                          $f_cetak1 = mysqli_query($conn, "SELECT * FROM penjualan WHERE MONTH(tgl) = '".$lck_b."' AND YEAR(tgl) = '".$lck_t."'");
-                          $cek = mysqli_num_rows($f_cetak);
-                          $cek1 = mysqli_num_rows($f_cetak1);
-                          if ($cek <= 0 or $cek1 <= 0) {
+                          if ($cek <= 0 and $cek1 <= 0) {
                             echo "<h5 style='font-family: Montserrat-SemiBold'>Maaf... :(</h5>
                                   <br>
                                   <p style='font-family: Montserrat-Medium'>Data keuangan pada bulan ".$lck_b.", tahun ".$lck_t." tidak ditemukan.</p>";
@@ -519,6 +528,8 @@ if(login_check()){
                       <br>
                       <h5>Penjualan</h5>
                       <div class="table-responsive">
+                        <?php if ($cek1 >= 1) {
+                        ?>
                         <table class="table table-sm">
                           <thead>
                             <tr>
@@ -586,9 +597,23 @@ if(login_check()){
                           </tr>
                           </tbody>
                         </table>
+                      </div>
+                      <?php
+                          }
+                          else{
+                            $sum_qty = $sum_cpj = 0;
+                        ?>
+                      <p style="font-family: arial; font-size: 12pt; font-style: normal; color: black">Tidak ditemukan adanya data penjualan pada bulan ini</p>
+                          <br>
+                        <?php
+                          }
+                          ?>
                         <br>
                         <h5>Pengeluaran</h5>
                       <div class="table-responsive">
+                        <?php 
+                        if($cek >= 1){
+                        ?>
                         <table class="table table-sm">
                           <thead>
                             <tr>
@@ -640,7 +665,7 @@ if(login_check()){
                               <td>Rp. <?php echo $ctk['cpg'] ?></td>
                             </tr>
                         <?php
-                          }}
+                          }
                         ?>
                         <tr>
                             <td colspan="3"></td>
@@ -657,8 +682,17 @@ if(login_check()){
                           </tr>
                         </tbody>
                         </table>
-                      </div>
-                  </div>
+                        </div>
+                        <?php 
+                        }
+                      else{
+                        $sum_cpg = 0;
+                    ?>
+                    <p style="font-family: arial; font-size: 12pt; font-style: normal; color: black">Tidak ditemukan adanya data pengeluaran pada bulan ini</p>
+                    <br>
+                    <?php
+                        }
+                    ?>
                   <h5>
                     Keuntungan
                   </h5>
@@ -678,26 +712,15 @@ if(login_check()){
                     <h6 style="position: absolute; right: 100%">(</h6>
                     <h6 style="position: absolute; right: 0%">)</h6>
                     </div>
-    						</div>
-                <div class="col-sm-2">
-                    <center>
-                      <?php if($cek >= 1 or $cek1 >= 1) {?>
-                    <form action="print.php" method="post">
-                        <input type="hidden" name="lck_bln" value="<?php echo $lck_b ?>">
-                        <input type="hidden" name="lck_thn" value="<?php echo $lck_t ?>">
-                        <button style="border-radius: 50px; width: 120px; font-family: Montserrat-Medium; font-size: 10pt; cursor: pointer" class="btn btn-info" type="submit" name="lck_show" value="Cetak">
-                        <i class="fa fa-print"></i> Cetak
-                      </button>
-                      </form>
-                    <?php } ?>  
-                    </center>
+                  <?php } ?>
                   </div>
-    					</div>
-    				</div>
-  				</div>
-			</div>
-		</div>
-	</div>
+                <div class="col-sm-2">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 	<!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="js//jquery-ui.min.js"></script>

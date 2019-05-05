@@ -63,6 +63,8 @@ if(login_check()){
                       <br>
                       <h5>Penjualan</h5>
                       <div class="table">
+                        <?php if ($cek1 >= 1) {
+                        ?>
                         <table class="table table-sm">
                           <thead>
                             <tr>
@@ -130,9 +132,22 @@ if(login_check()){
                           </tr>
                           </tbody>
                         </table>
+                      </div>
+                      <?php
+                          }
+                          else{
+                            $sum_qty = $sum_cpj = 0;
+                        ?>
+                      <p style="font-family: arial; font-size: 12pt; font-style: normal; color: black">Tidak ditemukan adanya data penjualan pada bulan ini</p>
+                          <br>
+                        <?php
+                          }
+                          ?>
                         <br>
                         <h5>Pengeluaran</h5>
                       <div class="table-responsive">
+                        <?php if ($cek >= 1) {
+                        ?>
                         <table class="table table-sm">
                           <thead>
                             <tr>
@@ -202,7 +217,16 @@ if(login_check()){
                         </tbody>
                         </table>
                       </div>
-                  </div>
+                  <?php 
+                        }
+                      else{
+                        $sum_cpg = 0;
+                    ?>
+                    <p style="font-family: arial; font-size: 12pt; font-style: normal; color: black">Tidak ditemukan adanya data pengeluaran pada bulan ini</p>
+                    <br>
+                    <?php
+                        }
+                    ?>
                   <h5>
                     Keuntungan
                   </h5>
@@ -222,7 +246,7 @@ if(login_check()){
                     <h6 style="position: absolute; right: 100%">(</h6>
                     <h6 style="position: absolute; right: 0%">)</h6>
                     </div>
-                                    </div>
+        </div>
 			<div class="col-sm-2"></div>
 		</div>
 	</div>
